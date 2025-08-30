@@ -29,7 +29,7 @@ jobs:
           context: .
           push: true
           # Nombramos la imagen con el formato de GitHub Packages
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/${{ github.repository | toLower }}:latest
 
       # Paso 4: Desplegar la imagen en Render
       # Esta acción se encarga de llamar a la API de Render
