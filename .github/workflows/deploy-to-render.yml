@@ -34,9 +34,7 @@ jobs:
       # Paso 4: Desplegar la imagen en Render
       # Esta acción se encarga de llamar a la API de Render
       - name: Deploy to Render
-        run: |
-          npm install -g @renderinc/cli
-          render-cli deploy --service-id ${{ secrets.RENDER_SERVICE_ID }}
-        env:
-          RENDER_EMAIL: ${{ secrets.RENDER_EMAIL }}
-          RENDER_PASSWORD: ${{ secrets.RENDER_PASSWORD }}
+        uses: render-inc/deploy-action@v1
+        with:
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
