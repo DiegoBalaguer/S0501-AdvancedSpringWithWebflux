@@ -228,6 +228,42 @@ Utilizamos los siguientes comandos en la terminal. El archivo `docker-compose.ym
     docker-compose up
     ```
 
+### 3. Subir una imagen a Docker Hub
+
+1.  **Construir la imagen de Docker**
+    Abre una terminal y navega hasta el directorio de tu proyecto. Ejecuta el siguiente comando para construir tu imagen, asegurándote de reemplazar `<nombre-de-usuario>` con tu nombre de usuario de Docker Hub y `<nombre-de-imagen>` con un nombre descriptivo para tu aplicación.
+
+    `docker-compose build --no-cache`
+
+
+2.  **Iniciar sesión en Docker Hub**
+    Desde la misma terminal, inicia sesión en tu cuenta de Docker Hub. Se te pedirá tu nombre de usuario y contraseña.
+
+    `docker login`
+
+
+3.  **Etiquetar la imagen**
+    (Este paso es opcional, pero útil si quieres especificar una versión). Etiqueta tu imagen con un número de versión, por ejemplo `1.0`.
+
+    `docker tag <nombre-de-imagen-local> <nombre-de-usuario>/<nombre-de-imagen>:1.0.0`
+
+
+4.  **Subir la imagen**
+    Sube la imagen a tu repositorio de Docker Hub.
+
+    `docker push <nombre-de-usuario>/<nombre-de-imagen>`
+
+
+5.  **Verificar la imagen en Docker Hub**
+    Una vez que el proceso de subida haya terminado, puedes ir a tu perfil en la página web de Docker Hub para verificar que la imagen ha sido subida correctamente y está disponible públicamente.
+
+
+#### 3.1. **Descarga de la imagen de Docker**
+
+Para descargar la imagen de docker usa el siguiente comando:
+
+🔗 👉 docker push didacb/blackjack-app:v1.0.0
+
 ---
 
 ### **Verificación de la ejecución**
@@ -247,22 +283,30 @@ Una vez que la aplicación está lista y dockerizada, el siguiente paso es despl
 ### 1. Despliegue manual en Render
 
 1.  **Iniciar sesión en Render**
-
-    Inicia sesión en nuestra cuenta de Render. Si no tenemos una, se tiene que crear.
+    Inicia sesión en tu cuenta de Render. Si no tienes una, debes crearla.
 
 
 2.  **Crear un nuevo servicio web**
-
-    Desde el panel de control, hacemos clic en New Web Service.
-
-    Seleccionaos la opción para desplegar desde un Docker Image URL y proporcionamos la URL de la imagen de Docker que subimos a GitHub Packages.
+    Desde el panel de control, haz clic en **New Web Service**.
 
 
-3. **Probar que la aplicación funciona**
+3.  **Conectar con GitHub**
+    Selecciona la opción para desplegar desde un **repositorio de GitHub**. Autoriza a Render a acceder a tus repositorios y elige el repositorio que contiene tu código.
 
-   Una vez que Render ha desplegado la imagen, nos proporcionará una URL. Abrimos un navegador web con la URL para verificar que la aplicación se ejecuta correctamente.
+
+4.  **Configurar las variables de entorno**
+    Dentro de la configuración del servicio de tu aplicación en Render, en **Environment Variables**, tienes que crear las variables de entorno que necesita tu aplicación, como las credenciales de la base de datos.
+
+
+5.  **Desplegar la aplicación**
+    Render detectará automáticamente el código de tu repositorio y comenzará el proceso de despliegue.
+
+
+6.  **Probar que la aplicación funciona**
+    Una vez que Render haya completado el despliegue, te proporcionará una URL. Abre un navegador web con esta URL para verificar que la aplicación se ejecuta correctamente.
 
 ---
+
 ### 2. Despliegue automatizado con GitHub Actions
 
 Este proceso elimina la necesidad de subir la imagen de forma manual y de iniciar el despliegue a mano. Se activará automáticamente cada vez que subas cambios a la rama principal de tu repositorio.
@@ -298,15 +342,26 @@ Este proceso elimina la necesidad de subir la imagen de forma manual y de inicia
     Podremos ver el estado del despliegue en la pestaña de Actions del repositorio. Una vez que todos los pasos se completen con éxito, la aplicación se habrá actualizado en Render.
 
 
+#### 2.1. **Uso de la aplicación en Render**
+Puedes encontrar la aplicación en Render en el siguiente enlace:
+
+🔗 👉 https://blackjack-game-janf.onrender.com/swagger-ui/index.html#
+
+---
+
 ## 🌐 Despliegue
 
 Este proyecto es para fines educativos y está destinado para desarrollo local únicamente. No se requiere despliegue ni un entorno externo.
 
+---
+
 ## 📦 Repositorio
 
 Puedes encontrar el código fuente completo en GitHub:
+
 🔗 👉 https://github.com/DiegoBalaguer/S0501-AdvancedSpringWithWebflux.git
 
+---
 
 ## ✅ Notas del Autor
 
