@@ -1,5 +1,10 @@
 # S5.01 - Spring Framework Avanzado con WebFlux
 
+---
+# JUEGO BLACKJACK
+
+---
+
 ## 🎯 Objetivos
 
 * Aprender a programar una **API reactiva** en Java utilizando Spring Boot y WebFlux.
@@ -122,7 +127,6 @@ Este nivel cubre el despliegue de la aplicación en un entorno real, utilizando 
 
 ---
 
-
 ## ⚙️ Instalación & Ejecución
 ### 📋 Requisitos
 
@@ -147,58 +151,61 @@ Para ejecutar este proyecto, necesitamos:
 
     git clone https://github.com/DiegoBalaguer/S0501-AdvancedSpringWithWebflux.git
 
-    Importar el proyecto con tu IDE preferido (Eclipse o IntelliJ IDEA) como un proyecto Maven.
+    Importar el proyecto con nuestro IDE preferido (Eclipse o IntelliJ IDEA) como un proyecto Maven.
+
+---
 
 ## ▶️ Ejecución nivel 01. Aplicación Blackjack.
 
 ### Desde el IDE (IntelliJ IDEA)
 
 * **Configuración con un archivo `.env`:**
-    * Copia el archivo `config.env.example` y renómbralo a `.env`. Este archivo de ejemplo contiene las variables de entorno necesarias para la configuración de la aplicación.
-    * Una vez que hayas copiado el archivo, ábrelo y **modifica los valores de las variables** (por ejemplo, las credenciales de la base de datos) para que coincidan con tu configuración personal.
-    * En IntelliJ IDEA, abre la **ventana del menú `Run`** y selecciona `Edit Configurations...`.
-    * En la configuración de tu aplicación (por ejemplo, `Spring Boot`), busca la sección **`Environment variables`** y haz clic en el botón de la carpeta `(...)`.
-    * En la nueva ventana, haz clic en el botón **`+`** y selecciona **`EnvFile`**.
-    * Marca la opción **`Enable EnvFile`** y haz clic en el botón de la carpeta `(...)` para seleccionar el archivo `.env` que acabas de crear.
-    * Asegúrate de que la opción **`Ignore missing files`** esté seleccionada y guarda los cambios.
+    * Copiamos el archivo `config.env.example` y renómbralo a `archivo.env`. Este archivo de ejemplo contiene las variables de entorno necesarias para la configuración de las conexiones a las bases de datos.
+    * Una vez que hayamos copiado el archivo, lo abrimos y **modificamos los valores de las variables** para que coincidan con nuestra configuración personal.
+    * En IntelliJ IDEA, abrimos la **ventana del menú `Run`** y seleccionamos `Edit Configurations...`.
+    * En la configuración de la aplicación (por ejemplo, `Spring Boot`), buscamos la sección **`Environment variables`** y hacemos clic en el botón de la carpeta `(...)`.
+    * En la nueva ventana, hacemos clic en el botón **`+`** y seleccionamos **`EnvFile`**.
+    * Marcamos la opción **`Enable EnvFile`** y hacemos clic en el botón de la carpeta `(...)` para seleccionar el archivo `archivo.env` que acabamos de crear.
+    * Tenemos que asegurarnos de que la opción **`Ignore missing files`** esté seleccionada y guardamos los cambios.
 
 * **Ejecución directa:**
-    * Con las variables de entorno ya configuradas, puedes ejecutar la aplicación directamente desde la clase principal (`main()`). IntelliJ IDEA cargará automáticamente los valores desde el archivo `.env`.
+    * Con las variables de entorno ya configuradas, podemos ejecutar la aplicación directamente desde la clase principal (`main()`). IntelliJ IDEA cargará automáticamente los valores desde el archivo `archivo.env`.
 
 ---
 
 ### Desde la terminal (con Maven)
 
 * **Versión sin archivo `.env`:**
-    * Navega al directorio raíz de tu proyecto (donde se encuentra `pom.xml`).
-    * Ejecuta el siguiente comando para iniciar la aplicación:
+    * Navegamos al directorio raíz del proyecto (donde se encuentra `pom.xml`).
+    * Ejecutamos el siguiente comando para iniciar la aplicación:
         ```bash
         mvn spring-boot:run
         ```
 
 * **Versión con archivo `.env`:**
-    * Para pasar las variables de entorno desde la terminal, utiliza el siguiente comando. Ten en cuenta que este método es menos común para proyectos configurados en el IDE:
+    * Para pasar las variables de entorno desde la terminal, utilizamos el siguiente comando. Se ha de tener en cuenta que este método es menos común para proyectos configurados en el IDE:
         ```bash
-        mvn spring-boot:run -Dspring-boot.run.arguments="--spring.config.import=file:.env"
+        mvn spring-boot:run -Dspring-boot.run.arguments="--spring.config.import=file:archivo.env"
         ```
 
+---
 
 ## ▶️ Ejecucion nivel 02. Creación y Ejecución de la imagen Docker
 
-Para preparar y ejecutar los contenedores Docker, debes seguir estos pasos en la terminal, asegurándote de que los archivos `Dockerfile` y `docker-compose.yml` estén en la carpeta raíz de tu proyecto.
+Para preparar y ejecutar los contenedores Docker, debemos seguir estos pasos en la terminal, asegurandonos de que los archivos `Dockerfile` y `docker-compose.yml` estén en la carpeta raíz del proyecto.
 
 ---
 
 ### **1. Configurar las conexiones de la base de datos**
 
-* Copia el archivo `config.env.example` y renómbralo a `.env`.
-* Abre el archivo `.env` y modifica los valores de las variables de entorno para que coincidan con tus credenciales y configuración personal de las bases de datos.
+* Copiamos el archivo `config.env.example` y lo renombramos a `archivo.env`.
+* Abrimos el archivo `archivo.env` y modificamos los valores de las variables de entorno para que coincidan con nuestras credenciales y configuración personal de las bases de datos.
 
 ---
 
 ### **2. Ejecutar los comandos de Docker**
 
-Utiliza los siguientes comandos en tu terminal. El archivo `docker-compose.yml` leerá las variables de entorno de tu archivo `.env` para configurar las conexiones a las bases de datos.
+Utilizamos los siguientes comandos en la terminal. El archivo `docker-compose.yml` leerá las variables de entorno de tu archivo `archivo.env` para configurar las conexiones a las bases de datos.
 
 1.  **Detener y eliminar contenedores y volúmenes anteriores:**
     Este comando se asegura de que no haya versiones antiguas de los contenedores o volúmenes que puedan causar conflictos.
@@ -208,14 +215,14 @@ Utiliza los siguientes comandos en tu terminal. El archivo `docker-compose.yml` 
     ```
 
 2.  **Construir la imagen de la aplicación:**
-    Este comando construye la imagen de tu aplicación desde cero, sin utilizar la caché, para asegurar que se incluyan los cambios más recientes en el código.
+    Este comando construye la imagen de la aplicación desde cero, sin utilizar la caché, para asegurar que se incluyan los cambios más recientes en el código.
 
     ```bash
     docker-compose build --no-cache
     ```
 
 3.  **Iniciar los contenedores:**
-    Este comando levanta todos los servicios definidos en tu `docker-compose.yml`, incluyendo tu aplicación y las bases de datos.
+    Este comando levanta todos los servicios definidos en el `docker-compose.yml`, incluyendo la aplicación y las bases de datos, si es que se definen aquí.
 
     ```bash
     docker-compose up
@@ -225,9 +232,70 @@ Utiliza los siguientes comandos en tu terminal. El archivo `docker-compose.yml` 
 
 ### **Verificación de la ejecución**
 
-* Una vez que los contenedores se estén ejecutando, puedes acceder a la API a través de la URL y el puerto configurados en tu `docker-compose.yml`.
-* Para ver el estado de los contenedores, usa `docker-compose ps`.
-* Para ver los logs de los contenedores, usa `docker-compose logs`.
+* Una vez que los contenedores se estén ejecutando, podremos acceder a la API a través de la URL y el puerto configurados en `docker-compose.yml`.
+* Para ver el estado de los contenedores, usamos `docker-compose ps`.
+* Para ver los logs de los contenedores, usamos `docker-compose logs`.
+
+---
+
+
+## ▶️ Ejecucion nivel 03. Despliegue de la Aplicación
+
+Una vez que la aplicación está lista y dockerizada, el siguiente paso es desplegarla en un entorno real. A continuación, se detallan los pasos para un despliegue manual en Render, y el proceso más avanzado y robusto para un despliegue automatizado con GitHub Actions.
+
+---
+### 1. Despliegue manual en Render
+
+1.  **Iniciar sesión en Render**
+
+    Inicia sesión en nuestra cuenta de Render. Si no tenemos una, se tiene que crear.
+
+
+2.  **Crear un nuevo servicio web**
+
+    Desde el panel de control, hacemos clic en New Web Service.
+
+    Seleccionaos la opción para desplegar desde un Docker Image URL y proporcionamos la URL de la imagen de Docker que subimos a GitHub Packages.
+
+
+3. **Probar que la aplicación funciona**
+
+   Una vez que Render ha desplegado la imagen, nos proporcionará una URL. Abrimos un navegador web con la URL para verificar que la aplicación se ejecuta correctamente.
+
+---
+### 2. Despliegue automatizado con GitHub Actions
+
+Este proceso elimina la necesidad de subir la imagen de forma manual y de iniciar el despliegue a mano. Se activará automáticamente cada vez que subas cambios a la rama principal de tu repositorio.
+
+1.  **Prepararmos el repositorio en GitHub**
+
+    Tenemos que asegurarnos de que el proyecto en GitHub contenga un Dockerfile en la raíz.
+
+    El repositorio ya está configurado para usar GitHub Packages y las dependencias de Render.
+
+
+2.  **Configurar los Secretos de GitHub**
+
+    Para la automatización, necesitamos configurar tres secretos en el repositorio de GitHub para que el flujo de trabajo pueda autenticarse. No se tienen que exponer estos valores en el código.
+
+    Vamos a Settings > Secrets and variables > Actions y creamos los siguientes:
+
+         GH_PAT: Un Personal Access Token de GitHub con permisos de write:packages.
+         RENDER_API_KEY: Una clave de API generada en la cuenta de Render (Account Settings > API Keys).
+         RENDER_SERVICE_ID: La ID única del servicio en Render, se puede obtener de la URL del servicio.
+
+3.  **Crear el Archivo de Flujo de Trabajo (.github/workflows)**
+
+    Creamos la carpeta .github/workflows en la raíz del repositorio.
+
+    Dentro de esta carpeta, creamos un archivo llamado deploy-to-render.yml como el que tenemos en el repositorio.
+
+
+4.  **Verificación y Activación**
+
+    Una vez que el archivo .yml esté en el repositorio y los secretos estén configurados, cualquier git push a la rama main activará el flujo de trabajo.
+
+    Podremos ver el estado del despliegue en la pestaña de Actions del repositorio. Una vez que todos los pasos se completen con éxito, la aplicación se habrá actualizado en Render.
 
 
 ## 🌐 Despliegue
