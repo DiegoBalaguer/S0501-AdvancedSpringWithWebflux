@@ -109,22 +109,20 @@ Este nivel cubre el despliegue de la aplicación en un entorno real, utilizando 
     * Verificar que un `commit` en la rama principal active el flujo de trabajo de despliegue automático.
 
 ---
-
 ## 🛠️ Tecnologías Utilizadas
 
-* **Java**
-* **Spring Boot**
-* **Spring WebFlux**
-* **MySQL**
-* **MongoDB**
-* **JUnit**
-* **Mockito**
-* **Swagger**
-* **Postman**
-* **Docker**
-* **GitHub Actions**
-* **Render**
+Este proyecto fue desarrollado utilizando una serie de herramientas y tecnologías modernas para asegurar un rendimiento óptimo, escalabilidad y facilidad de mantenimiento. A continuación, se detallan las principales tecnologías empleadas:
 
+* **Java**: El lenguaje de programación principal.
+* **Spring Boot** & **Spring WebFlux**: Frameworks para la creación de aplicaciones robustas, escalables y reactivas.
+* **MySQL**: Sistema de gestión de bases de datos relacional. El servidor de base de datos se desplegó en una instancia de **Clever Cloud**.
+* **MongoDB**: Base de datos NoSQL orientada a documentos. El servidor se configuró y gestionó a través de **MongoDB Atlas**.
+* **JUnit** & **Mockito**: Utilizados para las pruebas unitarias y la simulación de objetos, garantizando la calidad y fiabilidad del código.
+* **Swagger**: Para la documentación de la API, facilitando la integración y el desarrollo colaborativo.
+* **Postman**: Herramienta utilizada para la prueba y validación de los endpoints de la API.
+* **Docker**: Para la contenerización de la aplicación, lo que simplifica su despliegue en cualquier entorno.
+* **GitHub Actions**: Implementación de un flujo de trabajo de integración y despliegue continuo (CI/CD).
+* **Render**: Plataforma en la nube utilizada para el despliegue de la aplicación.
 ---
 
 ## ⚙️ Instalación & Ejecución
