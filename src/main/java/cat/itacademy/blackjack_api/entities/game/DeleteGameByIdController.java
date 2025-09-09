@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,13 +14,10 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/game")
 @Tag(name = "game", description = "API to delete game.")
+@RequiredArgsConstructor
 public class DeleteGameByIdController {
 
-    private final DeleteGameByIdService DELETE_GAME_BY_ID_SERVICE;
-
-    public DeleteGameByIdController(DeleteGameByIdService deleteGameByIdService) {
-        this.DELETE_GAME_BY_ID_SERVICE = deleteGameByIdService;
-    }
+    private final DeleteGameByIdService deleteGameByIdService;
 
     @Operation(summary = "Delete game", description = "Delete a game by ID.")
     @ApiResponse(responseCode = "200", description = "OK")
@@ -28,6 +26,6 @@ public class DeleteGameByIdController {
     public Mono<Void> deleteGameById(
             @Parameter(description = "Game Id", required = true)
             @PathVariable String id) {
-        return DELETE_GAME_BY_ID_SERVICE.execute(id);
+        return deleteGameByIdService.execute(id);
     }
 }

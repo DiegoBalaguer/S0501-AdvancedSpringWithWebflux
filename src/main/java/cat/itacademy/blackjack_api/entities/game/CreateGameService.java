@@ -6,35 +6,30 @@ import cat.itacademy.blackjack_api.entities.player.Player;
 import cat.itacademy.blackjack_api.entities.player.UpdatePlayerByIdService;
 import cat.itacademy.blackjack_api.exception.EmptyFieldException;
 import cat.itacademy.blackjack_api.exception.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class CreateGameService {
 
-    private final GameRepository GAME_REPOSITORY;
-    private final FindPlayerByIdService FIND_PLAYER_BY_ID_SERVICE;
-    private final BlackjackService BLACKJACK_SERVICE;
-    private final UpdatePlayerByIdService UPDATE_PLAYER_BY_ID_SERVICE;
-
-    public CreateGameService(GameRepository gameRepository, FindPlayerByIdService findPlayerByIdService, BlackjackService blackjackService, UpdatePlayerByIdService updatePlayerByIdService) {
-        this.GAME_REPOSITORY = gameRepository;
-        this.FIND_PLAYER_BY_ID_SERVICE = findPlayerByIdService;
-        this.BLACKJACK_SERVICE = blackjackService;
-        this.UPDATE_PLAYER_BY_ID_SERVICE = updatePlayerByIdService;
-    }
+    private final GameRepository gameRepository;
+    private final FindPlayerByIdService findPlayerByIdService;
+    private final BlackjackService blackjackService;
+    private final UpdatePlayerByIdService updatePlayerByIdService;
 
     public Mono<Game> execute(CreateGameDto createGameDto) {
         return validateInitialBetAmount(createGameDto)
                 .flatMap(player -> {
                     long newBalance = player.getBalance() - createGameDto.betAmount();
-                    return UPDATE_PLAYER_BY_ID_SERVICE.updatePlayerBalance(player.getId(), newBalance);
+                    return updatePlayerByIdService.updatePlayerBalance(player.getId(), newBalance);
                 })
-                .then(Mono.defer(() -> BLACKJACK_SERVICE.startNewGame(createGameDto.playerId(), createGameDto.betAmount(), createGameDto.numberDecks())))
+                .then(Mono.defer(() -> blackjackService.startNewGame(createGameDto.playerId(), createGameDto.betAmount(), createGameDto.numberDecks())))
                 .flatMap(game -> {
                     game.setCreatedAt(LocalDateTime.now());
-                    return GAME_REPOSITORY.save(game);
+                    return gameRepository.save(game);
                 });
     }
 
@@ -43,7 +38,7 @@ public class CreateGameService {
             return Mono.error(new EmptyFieldException("Bet amount must be a positive number."));
         }
 
-        return FIND_PLAYER_BY_ID_SERVICE.execute(createGameDto.playerId())
+        return findPlayerByIdService.execute(createGameDto.playerId())
                 .switchIfEmpty(Mono.error(new NotFoundException("Player not found with id: " + createGameDto.playerId())))
                 .flatMap(player -> {
                     if (player.getBalance() < createGameDto.betAmount()) {

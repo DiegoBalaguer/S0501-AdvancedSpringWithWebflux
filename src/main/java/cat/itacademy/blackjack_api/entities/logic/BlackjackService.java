@@ -6,19 +6,16 @@ import cat.itacademy.blackjack_api.entities.game.GameStatus;
 import cat.itacademy.blackjack_api.entities.models.deck.Decks;
 import cat.itacademy.blackjack_api.entities.models.deck.DecksProvider;
 import cat.itacademy.blackjack_api.entities.models.Hand;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class BlackjackService {
 
-    private final DecksProvider DECKS_PROVIDER;
-    private final AppProperties APP_PROPERTIES;
-
-    public BlackjackService(DecksProvider decksProvider, AppProperties appProperties) {
-        this.DECKS_PROVIDER = decksProvider;
-        this.APP_PROPERTIES = appProperties;
-    }
+    private final DecksProvider decksProvider;
+    private final AppProperties appProperties;
 
     public Mono<Game> startNewGame(Long playerId, Long bet, int numberOfDecks) {
         Game game = new Game();
@@ -26,8 +23,7 @@ public class BlackjackService {
         game.setBetAmount(bet);
         game.setStatus(GameStatus.PLAYER_GAME);
 
-
-        Decks decks = DECKS_PROVIDER.get(numberOfDecks <= 1 ? APP_PROPERTIES.getDefaultDecks() :  numberOfDecks);
+        Decks decks = decksProvider.get(numberOfDecks <= 1 ? appProperties.getDefaultDecks() :  numberOfDecks);
         game.setDecks(decks);
 
         Hand playerHand = new Hand();

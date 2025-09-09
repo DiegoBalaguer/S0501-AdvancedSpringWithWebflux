@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,10 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping(value = "/player")
 @Tag(name = "player", description = "API to manage player data")
+@RequiredArgsConstructor
 public class UpdatePlayerByIdController {
 
-    private final UpdatePlayerByIdService UPDATE_PLAYER_BY_ID_SERVICE;
-
-    public UpdatePlayerByIdController(UpdatePlayerByIdService updatePlayerByIdService) {
-        this.UPDATE_PLAYER_BY_ID_SERVICE = updatePlayerByIdService;
-    }
+    private final UpdatePlayerByIdService updatePlayerByIdService;
 
     @PatchMapping(value = "/{id}/name")
     @Operation(summary = "Updates a player's name")
@@ -28,7 +26,7 @@ public class UpdatePlayerByIdController {
             @ApiResponse(responseCode = "404", description = "Player not found")
     })
     public Mono<ResponseEntity<Player>> updatePlayerName(@PathVariable Long id, @RequestBody String name) {
-        return UPDATE_PLAYER_BY_ID_SERVICE.updatePlayerName(id, name)
+        return updatePlayerByIdService.updatePlayerName(id, name)
                 .map(player -> ResponseEntity.status(HttpStatus.OK).body(player));
     }
 
@@ -40,7 +38,7 @@ public class UpdatePlayerByIdController {
             @ApiResponse(responseCode = "404", description = "Player not found")
     })
     public Mono<ResponseEntity<Player>> updatePlayerBalance(@PathVariable Long id, @RequestBody Long balance) {
-        return UPDATE_PLAYER_BY_ID_SERVICE.updatePlayerBalance(id, balance)
+        return updatePlayerByIdService.updatePlayerBalance(id, balance)
                 .map(player -> ResponseEntity.status(HttpStatus.OK).body(player));
     }
 }

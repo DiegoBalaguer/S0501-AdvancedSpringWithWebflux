@@ -1,20 +1,18 @@
 package cat.itacademy.blackjack_api.entities.player;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import java.util.Comparator;
 
 @Service
+@RequiredArgsConstructor
 public class GetRankingService {
 
-    private final PlayerRepository PLAYER_REPOSITORY;
-
-    public GetRankingService(PlayerRepository playerRepository) {
-        this.PLAYER_REPOSITORY = playerRepository;
-    }
+    private final PlayerRepository playerRepository;
 
     public Flux<GetPlayerRankingDto> execute() {
-        return PLAYER_REPOSITORY.findAll()
+        return playerRepository.findAll()
                 .sort(Comparator.comparingInt(Player::getRankingScore).reversed())
                 .index()
                 .map(this::mapToPlayerRankingDto);

@@ -4,19 +4,17 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/player")
 @Tag(name = "player", description = "API to delete player.")
+@RequiredArgsConstructor
 public class DeletePlayerByIdController {
 
-    private final DeletePlayerByIdService DELETE_PLAYER_BY_ID_SERVICE;
-
-    public DeletePlayerByIdController(DeletePlayerByIdService deletePlayerByIdService) {
-        this.DELETE_PLAYER_BY_ID_SERVICE = deletePlayerByIdService;
-    }
+    private final DeletePlayerByIdService deletePlayerByIdService;
 
     @Operation(summary = "Delete player", description = "Delete a player by ID.")
     @ApiResponse(responseCode = "200", description = "OK")
@@ -25,6 +23,6 @@ public class DeletePlayerByIdController {
     public Mono<Void> deletePlayerById(
             @Parameter(description = "Player Id", required = true)
             @PathVariable Long id) {
-        return DELETE_PLAYER_BY_ID_SERVICE.execute(id);
+        return deletePlayerByIdService.execute(id);
     }
 }

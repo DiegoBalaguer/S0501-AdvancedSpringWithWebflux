@@ -7,16 +7,15 @@ import com.jcraft.jsch.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class SSHManagerService {
 
-    private static final Logger logger = LogManager.getLogger(SSHManagerService.class.getName());
-        private final SSHProperties sshProp;
+    private final SSHProperties sshProp;
     private final MySqlProperties mySqlProp;
     private final MongoDbProperties mongoDbProp;
 
@@ -82,23 +81,23 @@ public class SSHManagerService {
             session = jsch.getSession(sshUser, sshHost, sshPort);
             session.setPassword(sshPassword);
             session.setConfig("StrictHostKeyChecking", "no");
-            logger.info("Conectando al servidor SSH {}:{} con usuario {}", sshHost, sshPort, sshUser);
+            log.info("Conectando al servidor SSH {}:{} con usuario {}", sshHost, sshPort, sshUser);
             session.connect();
-            logger.info("Conexión SSH establecida.");
+            log.info("Conexión SSH establecida.");
 
             //MySql ssh connection
             if (mysqlSshIsEnable) {
                 int assignedPort = session.setPortForwardingL(mysqlLocalPort, mysqlHost, mysqlRemotePort);
-                logger.info("Túnel SSH establecido: localhost:{} -> {}:{}", assignedPort, mysqlHost, mysqlRemotePort);
+                log.info("Túnel SSH establecido: localhost:{} -> {}:{}", assignedPort, mysqlHost, mysqlRemotePort);
             }
 
             //MongoDb ssh connection
             if (mongoDbSshIsEnable) {
                 int assignedPortMongoDb = session.setPortForwardingL(mongoDbLocalPort, mongoDbHost, mongoDbRemotePort);
-                logger.info("Túnel SSH establecido: localhost:{} -> {}:{}", assignedPortMongoDb, mongoDbHost, mongoDbRemotePort);
+                log.info("Túnel SSH establecido: localhost:{} -> {}:{}", assignedPortMongoDb, mongoDbHost, mongoDbRemotePort);
             }
         } catch (JSchException e) {
-            logger.error("Error al iniciar el túnel SSH: {}", e.getMessage(), e);
+            log.error("Error al iniciar el túnel SSH: {}", e.getMessage(), e);
             throw new RuntimeException("Failed to start SSH tunnel", e);
         }
     }
@@ -107,7 +106,7 @@ public class SSHManagerService {
     public void stopSSHTunnel() {
         if (session != null && session.isConnected()) {
             session.disconnect();
-            logger.info("SSH Session Closed");
+            log.info("SSH Session Closed");
         }
     }
 }

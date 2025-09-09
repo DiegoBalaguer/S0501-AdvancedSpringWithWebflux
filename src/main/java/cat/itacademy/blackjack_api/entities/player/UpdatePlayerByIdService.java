@@ -2,33 +2,27 @@ package cat.itacademy.blackjack_api.entities.player;
 
 import cat.itacademy.blackjack_api.exception.InvalidInputException;
 import cat.itacademy.blackjack_api.exception.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
-public class
+@RequiredArgsConstructor
+public class UpdatePlayerByIdService {
 
-
-UpdatePlayerByIdService {
-
-    private final PlayerRepository PLAYER_REPOSITORY;
-    private final PlayerValidations PLAYER_VALIDATIONS;
-
-    public UpdatePlayerByIdService(PlayerRepository playerRepository, PlayerValidations playerValidations) {
-        this.PLAYER_REPOSITORY = playerRepository;
-        this.PLAYER_VALIDATIONS = playerValidations;
-    }
+    private final PlayerRepository playerRepository;
+    private final PlayerValidations playerValidations;
 
     public Mono<Player> findById(Long id) {
-        return PLAYER_REPOSITORY.findById(id);
+        return playerRepository.findById(id);
     }
 
     public Mono<Player> updatePlayer(Long id, UpdatePlayerDto updateDto) {
-        return PLAYER_REPOSITORY.findById(id)
+        return playerRepository.findById(id)
                 .switchIfEmpty(Mono.error(new NotFoundException("Player not found with id: " + id)))
                 .flatMap(player -> {
                     if (updateDto.name() != null) {
-                        return PLAYER_VALIDATIONS.validateName(updateDto.name())
+                        return playerValidations.validateName(updateDto.name())
                                 .map(validatedName -> {
                                     player.setName(validatedName);
                                     return player;
@@ -38,7 +32,7 @@ UpdatePlayerByIdService {
                 })
                 .flatMap(player -> {
                     if (updateDto.balance() != null) {
-                        return PLAYER_VALIDATIONS.validateBalance(updateDto.balance())
+                        return playerValidations.validateBalance(updateDto.balance())
                                 .map(validatedBalance -> {
                                     player.setBalance(validatedBalance);
                                     return player;
@@ -48,7 +42,7 @@ UpdatePlayerByIdService {
                 })
                 .flatMap(player -> {
                     if (updateDto.rankingScore() != null) {
-                        return PLAYER_VALIDATIONS.validateRankingScore(updateDto.rankingScore())
+                        return playerValidations.validateRankingScore(updateDto.rankingScore())
                                 .map(validatedRankingScore -> {
                                     player.setRankingScore(validatedRankingScore);
                                     return player;
@@ -62,7 +56,7 @@ UpdatePlayerByIdService {
                     }
                     return Mono.just(player);
                 })
-                .flatMap(PLAYER_REPOSITORY::save);
+                .flatMap(playerRepository::save);
     }
 
     public Mono<Player> updatePlayerName(Long id, String name) {
@@ -90,8 +84,8 @@ UpdatePlayerByIdService {
             return Mono.just(player);
         }
 
-        return PLAYER_VALIDATIONS.validateEmail(email)
-                .then(PLAYER_VALIDATIONS.validateEmailNotExists(email))
+        return playerValidations.validateEmail(email)
+                .then(playerValidations.validateEmailNotExists(email))
                 .map(validatedEmail -> {
                     player.setEmail(validatedEmail);
                     return player;
@@ -99,17 +93,17 @@ UpdatePlayerByIdService {
     }
 
     public Mono<Player> addPlayerBalance(long id, long amount) {
-        return PLAYER_REPOSITORY.findById(id)
+        return playerRepository.findById(id)
                 .switchIfEmpty(Mono.error(new NotFoundException("Player not found with id: " + id)))
                 .flatMap(player -> {
                     long newBalance = player.getBalance() + amount;
                     player.setBalance(newBalance);
-                    return PLAYER_REPOSITORY.save(player);
+                    return playerRepository.save(player);
                 });
     }
 
     public Mono<Player> subtractPlayerBalance(long id, long amount) {
-        return PLAYER_REPOSITORY.findById(id)
+        return playerRepository.findById(id)
                 .switchIfEmpty(Mono.error(new NotFoundException("Player not found with id: " + id)))
                 .flatMap(player -> {
                     long newBalance = player.getBalance() - amount;
@@ -117,17 +111,17 @@ UpdatePlayerByIdService {
                         return Mono.error(new InvalidInputException("Balance cannot be negative"));
                     }
                     player.setBalance(newBalance);
-                    return PLAYER_REPOSITORY.save(player);
+                    return playerRepository.save(player);
                 });
     }
 
     public Mono<Player> addPlayerRankingScore(long id, Integer ranking) {
-        return PLAYER_REPOSITORY.findById(id)
+        return playerRepository.findById(id)
                 .switchIfEmpty(Mono.error(new NotFoundException("Player not found with id: " + id)))
                 .flatMap(player -> {
                     Integer newRanking = player.getRankingScore() + ranking;
                     player.setRankingScore(newRanking);
-                    return PLAYER_REPOSITORY.save(player);
+                    return playerRepository.save(player);
                 });
     }
 

@@ -2,17 +2,15 @@ package cat.itacademy.blackjack_api.entities.player;
 
 import cat.itacademy.blackjack_api.exception.AlreadyExistsException;
 import cat.itacademy.blackjack_api.exception.InvalidInputException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 @Component
+@RequiredArgsConstructor
 public class PlayerValidations {
 
-    private final PlayerRepository PLAYER_REPOSITORY;
-
-    public PlayerValidations(PlayerRepository playerRepository) {
-        this.PLAYER_REPOSITORY = playerRepository;
-    }
+    private final PlayerRepository playerRepository;
 
     public Mono<String> validateName(String name) {
         if (name == null || name.trim().isEmpty()) {
@@ -44,7 +42,7 @@ public class PlayerValidations {
     }
 
     public Mono<String> validateEmailNotExists(String email) {
-        return PLAYER_REPOSITORY.findByEmail(email)
+        return playerRepository.findByEmail(email)
                 .flatMap(player -> Mono.error(new AlreadyExistsException("Email already exists: " + email)))
                 .thenReturn(email);
     }
